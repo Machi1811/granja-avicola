@@ -30,6 +30,7 @@ class PolloEngorde extends Model
         'fecha_venta' => 'date',
         'consumo_total_kg' => 'decimal:2',
         'peso_venta_kg' => 'decimal:2',
+        'dias_transcurridos' => 'integer',
     ];
 
     // Métodos de negocio
@@ -52,7 +53,7 @@ class PolloEngorde extends Model
      */
     public function actualizarDias()
     {
-        $this->dias_transcurridos = $this->calcularDiasTranscurridos();
+        $this->dias_transcurridos = (int) $this->calcularDiasTranscurridos();
         
         // Si alcanzó los 120 días, marcar como listo para venta
         if ($this->dias_transcurridos >= self::DIAS_CICLO_COMPLETO && $this->estado === 'crecimiento') {
