@@ -31,7 +31,7 @@ php artisan cache:clear
 # Optimizar para producción
 echo "⚡ Optimizando..."
 php artisan config:cache
-php artisan route:cache
+# php artisan route:cache  # DESHABILITADO temporalmente hasta que todo funcione
 # php artisan view:cache  # DESHABILITADO: causa problemas con vistas actualizadas
 
 # Crear enlace simbólico para storage
