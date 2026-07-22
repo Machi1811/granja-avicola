@@ -31,4 +31,10 @@ export default defineConfig({
             },
         },
     },
+    // Asegurar que el manifest esté en la raíz del directorio build
+    experimental: {
+        renderBuiltUrl(filename) {
+            return '/' + filename;
+        },
+    },
 });
