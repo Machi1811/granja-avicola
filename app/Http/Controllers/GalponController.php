@@ -40,23 +40,23 @@ class GalponController extends Controller
             ->with('success', 'Galpón creado exitosamente');
     }
 
-    public function show(Galpon $galpon)
+    public function show(Galpon $galpone)
     {
-        $galpon->load(['ponedoras', 'producciones' => function($query) {
+        $galpone->load(['ponedoras', 'producciones' => function($query) {
             $query->orderBy('fecha', 'desc')->limit(30);
         }]);
         
-        $galpon->verificarEstado();
+        $galpone->verificarEstado();
         
-        return view('galpones.show', compact('galpon'));
+        return view('galpones.show', ['galpon' => $galpone]);
     }
 
-    public function edit(Galpon $galpon)
+    public function edit(Galpon $galpone)
     {
-        return view('galpones.edit', compact('galpon'));
+        return view('galpones.edit', ['galpon' => $galpone]);
     }
 
-    public function update(Request $request, Galpon $galpon)
+    public function update(Request $request, Galpon $galpone)
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
@@ -66,16 +66,16 @@ class GalponController extends Controller
             'observaciones' => 'nullable|string',
         ]);
 
-        $galpon->update($validated);
+        $galpone->update($validated);
 
         return redirect()
-            ->route('galpones.show', $galpon)
+            ->route('galpones.show', $galpone)
             ->with('success', 'Galpón actualizado exitosamente');
     }
 
-    public function destroy(Galpon $galpon)
+    public function destroy(Galpon $galpone)
     {
-        $galpon->delete();
+        $galpone->delete();
 
         return redirect()
             ->route('galpones.index')
