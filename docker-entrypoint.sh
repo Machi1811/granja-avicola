@@ -7,13 +7,14 @@ echo "🚀 Iniciando aplicación Laravel..."
 echo "⏳ Esperando base de datos..."
 sleep 5
 
-# Limpiar configuración solamente (sin tocar cache de BD que aún no existe)
-echo "🧹 Limpiando configuración..."
+# Limpiar cache existente
+echo "🧹 Limpiando cache..."
 php artisan config:clear
-php artisan view:clear
 php artisan route:clear
+php artisan view:clear
+php artisan cache:clear
 
-# Ejecutar migraciones PRIMERO (para crear las tablas)
+# Ejecutar migraciones
 echo "🗄️  Ejecutando migraciones..."
 php artisan migrate --force
 
@@ -24,26 +25,17 @@ if [ ! -f /var/www/html/storage/.seeded ]; then
     touch /var/www/html/storage/.seeded
 fi
 
-# AHORA sí limpiar cache (después de que existan las tablas)
-echo "🧹 Limpiando cache de base de datos..."
-php artisan cache:clear
-
 # Optimizar para producción
-echo "⚡ Optimizando..."
+echo "⚡ Optimizando para producción..."
 php artisan config:cache
-# php artisan route:cache  # DESHABILITADO temporalmente hasta que todo funcione
-# php artisan view:cache  # DESHABILITADO: causa problemas con vistas actualizadas
+php artisan route:cache
+php artisan view:cache
 
 # Crear enlace simbólico para storage
 php artisan storage:link || true
 
-echo "✅ Aplicación lista!"
-
-# Mostrar últimas líneas del log de Laravel si existe un error
-echo "📋 Verificando logs..."
-if [ -f /var/www/html/storage/logs/laravel.log ]; then
-    tail -n 20 /var/www/html/storage/logs/laravel.log || true
-fi
+echo "✅ Aplicación lista en producción!"
 
 # Ejecutar comando de Apache
 exec "$@"
+

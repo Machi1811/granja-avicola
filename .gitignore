@@ -3,6 +3,7 @@
 .env
 .env.backup
 .env.production
+.env.render
 .phpactor.json
 .phpunit.result.cache
 /.codex
@@ -25,3 +26,35 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Archivos de documentación local (no necesarios en repo)
+GUIA-*.md
+INSTALACION.md
+COMANDOS.md
+DEPLOY.md
+PROYECTO-COMPLETADO.md
+*.txt
+!.gitignore
+
+# Scripts de setup local
+setup*.sh
+setup*.ps1
+instalar-local.ps1
+habilitar-*.ps1
+
+# Archivos de Heroku/Render innecesarios
+Procfile
+render-build.sh
+.slugignore
+
+# Base de datos local
+/database/database.sqlite
+*.sqlite
+*.sqlite-journal
+
+# Archivos temporales
+*.swp
+*.swo
+*~
+.tmp
+

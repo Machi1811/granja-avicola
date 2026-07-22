@@ -1,227 +1,184 @@
-# 🐔 Sistema de Gestión de Granja Avícola - MVP
+# 🐔 Sistema de Gestión de Granja Avícola
 
-Sistema completo de gestión operativa y financiera para granjas avícolas artesanales de ponedoras y pollos de engorde.
+Sistema MVP para gestión integral de granja avícola con módulos de producción de huevos, pollos de engorde, control de alimentos, ventas y personal.
 
-## 📋 Descripción
-
-Este MVP automatiza la gestión operativa y financiera de una granja avícola artesanal de ponedoras y pollos de engorde, implementando de forma estricta las fórmulas matemáticas de consumo de alimento, mermas de producción, precios de venta por escala, ciclos de descarte por tiempo y control de pagos diarios a operarios.
-
-## ✨ Características Principales
+## 🚀 Características Principales
 
 ### Requerimientos Funcionales Implementados
 
-#### RF-01: Control de Inventario de Ponedoras y Mermas
-- Registro diario de aves ponedoras activas (población inicial de 500)
-- **Cálculo automático de merma del 10%** en producción de huevos
-- Ejemplo: 500 aves producen 450 huevos netos (restando 10% de merma)
+- **RF-01**: Control de merma del 10% en producción de huevos
+- **RF-02**: Consumo de alimento de 120g por ponedora diaria
+- **RF-03**: Ciclo de producción de pollos de engorde de 120 días
+- **RF-04**: Tarificador automático (S/35 > 30 huevos, S/30 ≤ 30 huevos)
+- **RF-05**: Gestión de descarte de ponedoras a los 36 meses
+- **RF-06**: Control de pago a operarios (S/80 por día trabajado)
 
-#### RF-02: Conversión Automática de Alimento
-- **Consumo por ave: 120 gramos** de alimento de postura al día
-- Conversión automática: gramos → kilogramos → quintales (1 quintal = 46 kg)
-- **Alerta automática** cuando quedan menos de 2 quintales de reserva
+### Módulos CRUD Completos
 
-#### RF-03: Tarificador de Venta de Aves (Ponedoras)
-- **1 a 12 gallinas: S/. 35.00** por unidad
-- **Más de 12 gallinas: S/. 30.00** por unidad (precio de mayorista)
-- Cálculo automático según cantidad
-
-#### RF-04: Control de Pollos de Engorde por Camadas
-- Gestión de lotes con fecha de ingreso
-- **Ciclo de vida exacto de 120 días**
-- Marcado automático como "Listo para Venta" al completar el ciclo
-- Registro de consumo diario y venta final por peso en kg
-
-#### RF-05: Alerta de Descarte de Galpones
-- Control automático de antigüedad (**límite: 36 meses**)
-- Bloqueo de producción al superar el límite
-- Habilitación de venta como "Carne de Gallina"
-
-#### RF-06: Control de Jornales y Personal
-- Registro de asistencia diaria
-- **Pago fijo: S/. 80.00** por día trabajado
-- Sin beneficios sociales (régimen informal/artesanal)
-- Cálculo automático: Total = Días_Trabajados × 80
-
-### Requerimientos No Funcionales
-
-#### RNF-02: Interfaz Mobile First
-Formularios de registro diario optimizados para uso en campo desde teléfonos móviles con botones grandes y sin campos complicados.
-
-#### RNF-03: Tareas Programadas
-Sistema de alertas automáticas mediante Cronjobs diarios:
-- Actualización de ciclo de 120 días para pollos de engorde
-- Verificación de galpones de 36 meses para descarte
-- Alerta de stock de alimento menor a 2 quintales
+1. **Galpones** - Gestión de infraestructura
+2. **Ponedoras** - Control de lotes de gallinas ponedoras
+3. **Producción Diaria** - Registro de huevos producidos con cálculo de merma
+4. **Pollos de Engorde** - Gestión de lotes con ciclo de 120 días
+5. **Alimentos** - Control de stock (quintales y kg) con precio
+6. **Ventas** - Registro de ventas de huevos, pollos y descarte
+7. **Operarios** - Gestión de personal
+8. **Asistencias** - Control de asistencia y cálculo de pagos
 
 ## 🛠️ Stack Tecnológico
 
-- **Backend:** Laravel 11
-- **Frontend:** Blade Templates + Tailwind CSS 4
-- **Base de Datos:** PostgreSQL (producción) / SQLite (desarrollo)
-- **Build Tool:** Vite
-- **Despliegue:** Render.com
+- **Backend**: Laravel 11.x (PHP 8.4)
+- **Frontend**: Blade Templates + Tailwind CSS (Mobile First)
+- **Base de Datos**: PostgreSQL (Producción) / MySQL (Local)
+- **Deployment**: Docker + Render.com
+- **Version Control**: Git + GitHub
 
 ## 📦 Instalación Local
 
-### Requisitos Previos
-
+### Requisitos
 - PHP 8.2+
 - Composer
-- Node.js 18+
-- PostgreSQL o SQLite
+- MySQL o PostgreSQL
+- Node.js 18+ y npm
 
-### Pasos de Instalación
+### Pasos
 
 ```bash
-# 1. Clonar el repositorio
-git clone <url-del-repositorio>
+# Clonar repositorio
+git clone https://github.com/Machi1811/granja-avicola.git
 cd granja-avicola
 
-# 2. Instalar dependencias PHP
+# Instalar dependencias
 composer install
-
-# 3. Instalar dependencias Node
 npm install
 
-# 4. Copiar archivo de entorno
+# Configurar entorno
 cp .env.example .env
-
-# 5. Generar application key
 php artisan key:generate
 
-# 6. Configurar base de datos en .env
-# Para desarrollo con SQLite (default):
-DB_CONNECTION=sqlite
+# Configurar base de datos en .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=granja_avicola
+DB_USERNAME=root
+DB_PASSWORD=
 
-# 7. Crear base de datos SQLite
-touch database/database.sqlite
+# Migrar y sembrar datos
+php artisan migrate --seed
 
-# 8. Ejecutar migraciones y seeders
-php artisan migrate:fresh --seed
+# Compilar assets
+npm run build
 
-# 9. Compilar assets
-npm run dev
-
-# 10. Iniciar servidor
+# Iniciar servidor
 php artisan serve
 ```
 
 Acceder a: `http://localhost:8000`
 
-## 🚀 Despliegue en Render
+## 🚢 Deployment en Render
 
-Ver documentación completa en [DEPLOY.md](DEPLOY.md)
+### Base de Datos PostgreSQL
+1. Crear PostgreSQL Database en Render
+2. Copiar credenciales (Internal Database URL)
 
-### Resumen Rápido
+### Web Service (Docker)
+1. Crear Web Service desde GitHub repo
+2. Runtime: **Docker**
+3. Configurar variables de entorno:
 
-1. Conecta tu repositorio a Render
-2. Render detectará automáticamente `render.yaml`
-3. Configura las variables de entorno
-4. El despliegue se realiza automáticamente
-
-## 📱 Uso del Sistema
-
-### Dashboard Principal
-- Vista general de alertas críticas
-- Estadísticas en tiempo real
-- Accesos rápidos a funciones principales
-
-### Registro Rápido Diario
-1. **Producción de Huevos:** Registrar aves activas y producción (merma 10% automática)
-2. **Asistencia de Operarios:** Marcar presentes/ausentes (pago S/80 automático)
-
-### Módulos Principales
-- 🏠 **Galpones:** Gestión de instalaciones (alerta 36 meses)
-- 🥚 **Producción:** Control diario de huevos
-- 🐥 **Pollos de Engorde:** Seguimiento de ciclo 120 días
-- 🌾 **Alimentos:** Control de stock (alerta < 2 quintales)
-- 💰 **Ventas:** Registro con tarificador automático
-- 👷 **Operarios:** Gestión de personal y asistencia
-
-## ⏰ Comandos Artisan
-
-```bash
-# Actualizar ciclos de pollos (ejecutar diariamente)
-php artisan pollos:actualizar-ciclos
-
-# Verificar galpones para descarte (ejecutar diariamente)
-php artisan galpones:verificar-descarte
-
-# Verificar stock de alimentos (ejecutar 2x al día)
-php artisan alimentos:verificar-stock
-
-# Ver tareas programadas
-php artisan schedule:list
-
-# Ejecutar scheduler manualmente
-php artisan schedule:run
+```env
+APP_KEY=base64:...
+APP_ENV=production
+APP_DEBUG=false
+DB_CONNECTION=pgsql
+DB_HOST=dpg-xxx.oregon-postgres.render.com
+DB_PORT=5432
+DB_DATABASE=granja_avicola
+DB_USERNAME=granja_user
+DB_PASSWORD=xxx
+ASSET_URL=https://tu-app.onrender.com
 ```
 
-## 📊 Datos de Prueba
+4. Deploy automático desde push a main
 
-El sistema incluye seeders con datos realistas:
-
-- **4 Galpones:** 3 activos, 1 en descarte
-- **495 Ponedoras:** Distribuidas en 3 galpones
-- **2 Tipos de Alimento:** Postura (1.5qq - alerta) y Engorde (8qq - OK)
-- **3 Operarios:** Con historial de asistencia de 7 días
-- **5 Lotes de Pollos:** En diferentes etapas del ciclo de 120 días
-
-## 🔐 Seguridad
-
-- SoftDeletes en todos los modelos (auditoría)
-- Validación de datos en servidor
-- Protección CSRF en formularios
-- Variables de entorno para configuración sensible
-
-## 📝 Estructura del Proyecto
+## 📊 Estructura del Proyecto
 
 ```
 granja-avicola/
 ├── app/
-│   ├── Console/Commands/      # Comandos de alertas automáticas
-│   ├── Http/Controllers/      # Controladores con lógica de negocio
-│   └── Models/                # Modelos con cálculos automáticos
+│   ├── Http/Controllers/     # 9 controladores CRUD
+│   └── Models/               # 9 modelos con relaciones
 ├── database/
-│   ├── migrations/            # Esquema de base de datos
-│   └── seeders/               # Datos iniciales
+│   ├── migrations/           # 9 tablas + sistema
+│   └── seeders/              # Datos de prueba
 ├── resources/
-│   ├── css/                   # Estilos Tailwind
-│   ├── js/                    # JavaScript frontend
-│   └── views/                 # Vistas Blade (Mobile First)
+│   └── views/                # 45+ vistas Blade (Mobile First)
 ├── routes/
-│   ├── web.php               # Rutas de la aplicación
-│   └── console.php           # Scheduler configurado
-├── render.yaml               # Configuración Render
-├── render-build.sh           # Script de build
-└── DEPLOY.md                 # Guía de despliegue
+│   └── web.php               # Rutas principales
+├── docker-entrypoint.sh      # Script de inicio Docker
+└── Dockerfile                # Configuración Docker
 ```
 
-## 🐛 Troubleshooting
+## 🎯 Funcionalidades Clave
 
-### Error: "Class not found"
-```bash
-composer dump-autoload
-php artisan config:clear
-```
+### Dashboard Principal
+- Resumen de galpones activos
+- Métricas de producción diaria
+- Alertas de stock de alimento
+- Lotes próximos a venta (120 días)
+- Ponedoras próximas a descarte (36 meses)
 
-### Error en migraciones
-```bash
-php artisan migrate:fresh --seed
-```
+### Producción de Huevos
+- Registro rápido diario
+- Cálculo automático de merma (10%)
+- Tarificador inteligente por docena
+- Historial por galpón
 
-### Assets no se cargan
-```bash
-npm run build
-php artisan view:clear
-```
+### Pollos de Engorde
+- Contador automático de días transcurridos
+- Alerta de lotes listos para venta (120 días)
+- Control de consumo de alimento
+- Registro de ventas por kg
+
+### Control Financiero
+- Ventas consolidadas con totales
+- Cálculo automático de pagos a operarios
+- Control de compras de alimento
+- Reportes por período
+
+## 👥 Gestión de Personal
+- Registro de operarios con DNI único
+- Control de asistencia diaria
+- Cálculo automático de pagos (S/80/día)
+- Reporte de asistencias por operario
+
+## 📱 Diseño Mobile First
+- Interfaz optimizada para móviles
+- Tailwind CSS responsive
+- Navegación simple e intuitiva
+- Iconos visuales para mejor UX
+
+## 🔒 Seguridad
+- Variables de entorno para credenciales
+- HTTPS forzado en producción
+- Validación de datos en backend
+- Soft deletes para integridad de datos
+
+## 📈 Optimizaciones de Producción
+- Cache de configuración, rutas y vistas
+- Compresión de assets con Vite
+- Migraciones y seeders idempotentes
+- Consultas optimizadas con Eager Loading
+
+## 🐛 Soporte
+Para reportar issues o solicitar features:
+- GitHub Issues: https://github.com/Machi1811/granja-avicola/issues
 
 ## 📄 Licencia
-
-Este proyecto es propietario y fue desarrollado para gestión de granja avícola artesanal.
+Proyecto MVP - Sistema de Gestión Granja Avícola © 2026
 
 ---
 
-**Versión:** MVP 1.0  
-**Fecha:** Julio 2026  
-**Plazo de Desarrollo:** 10 días (Sprint MVP)
+**Desarrollado con ❤️ para la gestión eficiente de granjas avícolas**
+
+**Deploy en producción**: https://granja-avicola.onrender.com
