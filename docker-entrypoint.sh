@@ -11,6 +11,7 @@ sleep 5
 echo "🧹 Limpiando configuración..."
 php artisan config:clear
 php artisan view:clear
+php artisan route:clear
 
 # Ejecutar migraciones PRIMERO (para crear las tablas)
 echo "🗄️  Ejecutando migraciones..."
@@ -31,7 +32,7 @@ php artisan cache:clear
 echo "⚡ Optimizando..."
 php artisan config:cache
 php artisan route:cache
-php artisan view:cache
+# php artisan view:cache  # DESHABILITADO: causa problemas con vistas actualizadas
 
 # Crear enlace simbólico para storage
 php artisan storage:link || true
