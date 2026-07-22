@@ -36,6 +36,14 @@
             
             @if($operarios->count() === 0)
                 <p class="text-gray-500 text-center py-8">No hay operarios activos registrados</p>
+            @elseif($operarios->count() === count($registrosExistentes))
+                <div class="bg-green-50 border-2 border-green-300 rounded-lg p-6 text-center">
+                    <p class="text-green-800 font-bold text-lg mb-2">✅ Registro Completo</p>
+                    <p class="text-green-700">Todos los operarios ya tienen asistencia registrada para esta fecha.</p>
+                    <a href="{{ route('asistencias.index') }}" class="inline-block mt-4 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition">
+                        Ver Registros
+                    </a>
+                </div>
             @else
                 <div class="space-y-3">
                     @foreach($operarios as $operario)

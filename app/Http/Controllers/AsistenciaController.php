@@ -114,14 +114,23 @@ class AsistenciaController extends Controller
     {
         $validated = $request->validate([
             'fecha' => 'required|date',
-            'asistencias' => 'required|array',
+            'asistencias' => 'nullable|array',
             'asistencias.*' => 'required|boolean',
         ]);
 
         $fecha = $validated['fecha'];
+        $asistencias = $validated['asistencias'] ?? [];
+        
+        // Si no hay asistencias para registrar
+        if (empty($asistencias)) {
+            return redirect()
+                ->back()
+                ->with('info', 'No hay asistencias nuevas para registrar. Todos los operarios ya fueron registrados para esta fecha.');
+        }
+        
         $contador = 0;
 
-        foreach ($validated['asistencias'] as $operarioId => $asistio) {
+        foreach ($asistencias as $operarioId => $asistio) {
             // Verificar si ya existe
             $existe = Asistencia::where('operario_id', $operarioId)
                 ->where('fecha', $fecha)
@@ -135,6 +144,12 @@ class AsistenciaController extends Controller
                 ]);
                 $contador++;
             }
+        }
+
+        if ($contador === 0) {
+            return redirect()
+                ->route('asistencias.index')
+                ->with('info', 'No se registraron nuevas asistencias. Todos los operarios ya estaban registrados.');
         }
 
         return redirect()
