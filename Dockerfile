@@ -35,9 +35,12 @@ RUN composer install --optimize-autoloader --no-dev
 # Instalar dependencias de Node y compilar assets
 RUN npm install && npm run build
 
+# Verificar que los assets se generaron
+RUN ls -la /var/www/html/public/build || echo "⚠️ Build directory not found"
+
 # Configurar permisos
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/build
 
 # Habilitar mod_rewrite de Apache
 RUN a2enmod rewrite
