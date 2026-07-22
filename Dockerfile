@@ -41,6 +41,7 @@ RUN ls -la /var/www/html/public/build || echo "⚠️ Build directory not found"
 # Configurar permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/build
+RUN chmod -R 777 /var/www/html/storage/logs
 
 # Habilitar mod_rewrite de Apache
 RUN a2enmod rewrite

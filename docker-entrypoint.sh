@@ -38,5 +38,11 @@ php artisan storage:link || true
 
 echo "✅ Aplicación lista!"
 
+# Mostrar últimas líneas del log de Laravel si existe un error
+echo "📋 Verificando logs..."
+if [ -f /var/www/html/storage/logs/laravel.log ]; then
+    tail -n 20 /var/www/html/storage/logs/laravel.log || true
+fi
+
 # Ejecutar comando de Apache
 exec "$@"
