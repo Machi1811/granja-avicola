@@ -1,11 +1,12 @@
-services:
-  # Servicio Web (Laravel)
-  - type: web
-    name: granja-avicola
-    env: php
-    plan: free
-    buildCommand: "./render-build.sh"
-    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
+# Render Blueprint no soporta PHP directamente
+# Por favor, configura manualmente siguiendo DEPLOY.md
+
+# Para despliegue manual:
+# 1. Crear PostgreSQL Database
+# 2. Crear Web Service con las siguientes configuraciones:
+#    - Environment: Docker
+#    - Build Command: Ver render-build.sh
+#    - Start Command: php artisan serve --host=0.0.0.0 --port=$PORT
     envVars:
       - key: APP_NAME
         value: "Granja Avícola"
