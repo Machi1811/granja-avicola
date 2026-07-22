@@ -7,13 +7,12 @@ echo "🚀 Iniciando aplicación Laravel..."
 echo "⏳ Esperando base de datos..."
 sleep 5
 
-# Limpiar cache
-echo "🧹 Limpiando cache..."
+# Limpiar configuración solamente (sin tocar cache de BD que aún no existe)
+echo "🧹 Limpiando configuración..."
 php artisan config:clear
-php artisan cache:clear
 php artisan view:clear
 
-# Ejecutar migraciones
+# Ejecutar migraciones PRIMERO (para crear las tablas)
 echo "🗄️  Ejecutando migraciones..."
 php artisan migrate --force
 
@@ -23,6 +22,10 @@ if [ ! -f /var/www/html/storage/.seeded ]; then
     php artisan db:seed --force
     touch /var/www/html/storage/.seeded
 fi
+
+# AHORA sí limpiar cache (después de que existan las tablas)
+echo "🧹 Limpiando cache de base de datos..."
+php artisan cache:clear
 
 # Optimizar para producción
 echo "⚡ Optimizando..."
