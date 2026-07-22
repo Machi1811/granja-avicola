@@ -30,9 +30,9 @@ class OperarioController extends Controller
             'dni' => 'required|string|size:8|unique:operarios,dni',
             'telefono' => 'nullable|string|max:20',
             'fecha_ingreso' => 'required|date',
+            'pago_diario' => 'required|numeric|min:0',
         ]);
 
-        $validated['pago_diario'] = Operario::PAGO_DIARIO;
         $validated['estado'] = 'activo';
 
         $operario = Operario::create($validated);
@@ -77,6 +77,7 @@ class OperarioController extends Controller
             'telefono' => 'nullable|string|max:20',
             'estado' => 'required|in:activo,inactivo',
             'fecha_ingreso' => 'required|date',
+            'pago_diario' => 'required|numeric|min:0',
         ]);
 
         $operario->update($validated);

@@ -32,6 +32,7 @@ class AlimentoController extends Controller
         $validated = $request->validate([
             'tipo' => 'required|in:postura,engorde',
             'quintales_stock' => 'required|numeric|min:0',
+            'precio_quintal' => 'required|numeric|min:0',
         ]);
 
         // Convertir automáticamente a kg
@@ -61,8 +62,8 @@ class AlimentoController extends Controller
     public function update(Request $request, Alimento $alimento)
     {
         $validated = $request->validate([
-            'tipo' => 'required|in:postura,engorde',
             'quintales_stock' => 'required|numeric|min:0',
+            'precio_quintal' => 'required|numeric|min:0',
         ]);
 
         $alimento->update($validated);
