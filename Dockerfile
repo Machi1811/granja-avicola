@@ -33,10 +33,15 @@ COPY . /var/www/html
 RUN composer install --optimize-autoloader --no-dev
 
 # Instalar dependencias de Node y compilar assets
-RUN npm install && npm run build
+RUN npm ci --only=production=false
+RUN mkdir -p /var/www/html/public/build
+RUN npm run build
 
-# Verificar que los assets se generaron
-RUN ls -la /var/www/html/public/build || echo "⚠️ Build directory not found"
+# Verificar que los assets se generaron correctamente
+RUN ls -lah /var/www/html/public/build/ && \
+    test -f /var/www/html/public/build/manifest.json && \
+    echo "✅ Vite manifest generated successfully" || \
+    (echo "❌ ERROR: Vite manifest not found!" && exit 1)
 
 # Configurar permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public
